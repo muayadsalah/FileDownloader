@@ -1,7 +1,7 @@
 package com.muayadsalah.filedownloader.downloader;
 
 import com.jcraft.jsch.*;
-import com.muayadsalah.filedownloader.domain.FileHolder;
+import com.muayadsalah.filedownloader.model.FileHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,8 +15,8 @@ public class SftpFileDownloader extends FtpBaseFileDownloader {
     public static final int SFTP_PORT = 22;
     private static final Logger LOGGER = LoggerFactory.getLogger(SftpFileDownloader.class);
 
-    public SftpFileDownloader(FileHolder fileHolder, String user, String pass) {
-        super(fileHolder, user, pass);
+    public SftpFileDownloader(FileHolder fileHolder) {
+        super(fileHolder);
     }
 
     @Override
@@ -28,8 +28,8 @@ public class SftpFileDownloader extends FtpBaseFileDownloader {
         ChannelSftp channelSftp = null;
 
         try {
-            session = jsch.getSession(getUser(), getServer(), SFTP_PORT);
-            session.setPassword(getPassword());
+            session = jsch.getSession(getFileHolder().getUsername(), getServer(), SFTP_PORT);
+            session.setPassword(getFileHolder().getPassword());
             session.setConfig("StrictHostKeyChecking", "no");
             session.setTimeout(15000);
             session.connect();

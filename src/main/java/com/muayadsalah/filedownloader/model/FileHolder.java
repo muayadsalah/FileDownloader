@@ -1,44 +1,37 @@
-package com.muayadsalah.filedownloader.domain;
+package com.muayadsalah.filedownloader.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.muayadsalah.filedownloader.utils.Utilities;
 
+import javax.validation.constraints.NotBlank;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 
 /**
  * Created by Muayad Salah
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class FileHolder {
     public static final String FILES_HOLDER_FOLDER_PATH = System.getProperty("user.dir") + "/downloaded-files/";
 
+    @NotBlank(message = "FileUrlString cannot be null or empty!")
     private String fileUrlString;
-    private String fileName;
+
+    @JsonIgnore
     private String remoteFilePath;
+
+    @JsonIgnore
     private String outputFileName;
+
+    @JsonIgnore
     private String protocol;
 
-    public FileHolder(String fileUrlString) {
-        this.fileUrlString = fileUrlString;
-        this.protocol = parseProtocol(fileUrlString);
-        this.outputFileName = parseOutputFilePath(fileUrlString);
-        this.remoteFilePath = parseRemoteFilePath(fileUrlString, this.protocol);
-        this.fileName = getOutputFileName();
-    }
+    private String username;
 
-    public FileHolder(String fileUrlString, String fileName) {
-        this.fileUrlString = fileUrlString;
-        this.fileName = fileName;
-        this.protocol = parseProtocol(fileUrlString);
-        this.outputFileName = parseOutputFilePath(fileUrlString);
-        this.remoteFilePath = parseRemoteFilePath(fileUrlString, this.protocol);
-    }
+    private String password;
 
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public FileHolder() {
     }
 
     public String getFileUrlString() {
@@ -73,10 +66,32 @@ public class FileHolder {
         this.protocol = protocol;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void generateFileHolderProperties() {
+        this.protocol = parseProtocol(fileUrlString);
+        this.outputFileName = parseOutputFilePath(fileUrlString);
+        this.remoteFilePath = parseRemoteFilePath(fileUrlString, this.protocol);
+    }
+
     private String parseProtocol(String fileUrlString) {
         int indexOfHostNamePrefix = Utilities.getIndexOfHostNamePrefix(fileUrlString);
         if (indexOfHostNamePrefix == -1)
-            throw new RuntimeException("ERROR: Protocol is not referenced in the file URL");
+            throw new RuntimeException("ERROR: Protocol is not referenced in the item URL");
 
         return fileUrlString.substring(0, fileUrlString.indexOf(':'));
     }

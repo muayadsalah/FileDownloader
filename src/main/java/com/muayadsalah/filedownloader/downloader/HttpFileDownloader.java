@@ -1,6 +1,6 @@
 package com.muayadsalah.filedownloader.downloader;
 
-import com.muayadsalah.filedownloader.domain.FileHolder;
+import com.muayadsalah.filedownloader.model.FileHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,12 +31,12 @@ public class HttpFileDownloader extends BaseFileDownloader {
             URLConnection urlConn = url.openConnection();//connect
 
             inputStream = urlConn.getInputStream();               //get connection inputstream
-            fileOutputStream = new FileOutputStream(getFileHolder().getOutputFileName());   //open outputstream to local file
+            fileOutputStream = new FileOutputStream(getFileHolder().getOutputFileName());   //open outputstream to local item
 
             byte[] buffer = new byte[4096];              //declare 4KB buffer
             int len;
 
-            //while we have availble data, continue downloading and storing to local file
+            //while we have availble data, continue downloading and storing to local item
             while ((len = inputStream.read(buffer)) > 0) {
                 fileOutputStream.write(buffer, 0, len);
             }

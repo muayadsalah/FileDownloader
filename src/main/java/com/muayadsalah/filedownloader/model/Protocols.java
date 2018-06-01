@@ -1,4 +1,4 @@
-package com.muayadsalah.filedownloader.domain;
+package com.muayadsalah.filedownloader.model;
 
 /**
  * Created by Muayad Salah

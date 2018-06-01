@@ -1,6 +1,6 @@
 package com.muayadsalah.filedownloader.downloader;
 
-import com.muayadsalah.filedownloader.domain.FileHolder;
+import com.muayadsalah.filedownloader.model.FileHolder;
 import com.muayadsalah.filedownloader.utils.Utilities;
 
 import java.io.IOException;

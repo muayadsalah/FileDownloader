@@ -1,6 +1,6 @@
 package com.muayadsalah.filedownloader.downloader;
 
-import com.muayadsalah.filedownloader.domain.FileHolder;
+import com.muayadsalah.filedownloader.model.FileHolder;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.slf4j.Logger;
@@ -15,8 +15,8 @@ public class FtpFileDownloader extends FtpBaseFileDownloader {
     private static final int FTP_PORT = 21;
     private static final Logger LOGGER = LoggerFactory.getLogger(FtpFileDownloader.class);
 
-    public FtpFileDownloader(FileHolder fileHolder, String user, String pass) {
-        super(fileHolder, user, pass);
+    public FtpFileDownloader(FileHolder fileHolder) {
+        super(fileHolder);
     }
 
     @Override
@@ -26,7 +26,7 @@ public class FtpFileDownloader extends FtpBaseFileDownloader {
         try {
 
             ftpClient.connect(getServer(), FTP_PORT);
-            ftpClient.login(getUser(), getPassword());
+            ftpClient.login(getFileHolder().getUsername(), getFileHolder().getPassword());
 
             ftpClient.enterLocalPassiveMode();
             ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
